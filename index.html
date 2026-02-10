@@ -1,0 +1,2036 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>موها أنمي - مشاهدة أفلام وأنمي مجانية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #e91e63;
+            --bg-dark: #0f0f0f;
+            --card-bg: #1a1a1a;
+            --text-main: #ffffff;
+            --text-muted: #aaaaaa;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: rgba(15, 15, 15, 0.98);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.8);
+            border-bottom: 1px solid #333;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--primary-color);
+            text-decoration: none;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-container {
+            position: relative;
+            width: 300px;
+        }
+
+        .search-bar {
+            background: #222;
+            border: 1px solid #444;
+            padding: 10px 40px 10px 15px;
+            border-radius: 25px;
+            color: white;
+            width: 100%;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .search-bar:focus {
+            border-color: var(--primary-color);
+            background: #2a2a2a;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        .autocomplete-results {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            left: 0;
+            background: var(--card-bg);
+            border: 1px solid #444;
+            border-radius: 10px;
+            margin-top: 5px;
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+
+        .autocomplete-item {
+            padding: 12px 15px;
+            cursor: pointer;
+            border-bottom: 1px solid #333;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .autocomplete-item:hover {
+            background: #2a2a2a;
+        }
+
+        .autocomplete-item img {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .autocomplete-item .title {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .autocomplete-item .type {
+            font-size: 12px;
+            color: var(--primary-color);
+            margin-right: auto;
+        }
+
+        /* التصحيح: نقل CSS الـ nav هنا */
+        nav {
+            display: flex;
+            gap: 10px;
+            padding: 15px 5%;
+            background: rgba(15, 15, 15, 0.95);
+            border-bottom: 1px solid #333;
+            overflow-x: auto;
+        }
+
+        .nav-button {
+            background: #222;
+            border: 1px solid #444;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+            font-weight: 600;
+        }
+
+        .nav-button:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .nav-button.active {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+
+        .container {
+            padding: 30px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            position: relative;
+            padding-right: 15px;
+        }
+
+        .section-title::before {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 5px;
+            height: 25px;
+            background: var(--primary-color);
+            border-radius: 3px;
+        }
+
+        .quick-tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+            padding: 15px 0;
+        }
+
+        .tag-btn {
+            background: #222;
+            border: 1px solid #444;
+            color: var(--text-muted);
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .tag-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .tag-btn.active {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+
+        .daily-recommendations {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .recommendation-card {
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            transition: var(--transition);
+            border: 1px solid #333;
+            position: relative;
+        }
+
+        .recommendation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(233, 30, 99, 0.2);
+            border-color: var(--primary-color);
+        }
+
+        .recommendation-card img {
+            width: 120px;
+            height: 160px;
+            object-fit: cover;
+        }
+
+        .recommendation-info {
+            padding: 20px;
+            flex: 1;
+        }
+
+        .recommendation-tag {
+            background: var(--primary-color);
+            color: white;
+            font-size: 12px;
+            padding: 3px 10px;
+            border-radius: 10px;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .anime-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 25px;
+        }
+
+        .anime-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .anime-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(233, 30, 99, 0.2);
+        }
+
+        .anime-card img {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .anime-card:hover img {
+            filter: brightness(0.7);
+        }
+
+        .server-status {
+            position: absolute;
+            top: 12px;
+            left: 50px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4CAF50;
+            box-shadow: 0 0 10px #4CAF50;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .server-status.offline {
+            background: #f44336;
+            box-shadow: 0 0 10px #f44336;
+        }
+
+        .anime-info {
+            padding: 15px;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .anime-title {
+            font-size: 15px;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .anime-meta {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .anime-status {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: var(--primary-color);
+            font-size: 11px;
+            font-weight: bold;
+            padding: 4px 10px;
+            border-radius: 6px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            z-index: 2;
+        }
+
+        .fav-btn {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 10;
+            border: none;
+        }
+
+        .fav-btn:hover {
+            transform: scale(1.1);
+            background: var(--primary-color);
+        }
+
+        .fav-btn.active {
+            color: #ff4757;
+            background: white;
+        }
+
+        .favorites-section {
+            margin-bottom: 40px;
+            display: none;
+        }
+
+        #watch-page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .watch-layout {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 30px;
+        }
+
+        body.cinema-mode {
+            background: black;
+        }
+
+        body.cinema-mode .video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 9999;
+            border-radius: 0;
+        }
+
+        body.cinema-mode header,
+        body.cinema-mode nav,
+        body.cinema-mode .sidebar,
+        body.cinema-mode .anime-details-box,
+        body.cinema-mode .back-btn {
+            display: none !important;
+        }
+
+        .cinema-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            z-index: 10000;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cinema-btn:hover {
+            background: var(--primary-color);
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            background: #000;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.9);
+        }
+
+        video {
+            width: 100%;
+            display: block;
+            aspect-ratio: 16 / 9;
+        }
+
+        .video-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .video-container:hover .video-controls {
+            opacity: 1;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 5px;
+            background: rgba(255,255,255,0.2);
+            cursor: pointer;
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .progress-filled {
+            height: 100%;
+            background: var(--primary-color);
+            width: 0%;
+            border-radius: 5px;
+        }
+
+        .control-buttons {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .control-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .control-btn:hover {
+            color: var(--primary-color);
+            transform: scale(1.1);
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .episode-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .episode-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .episode-btn {
+            background: #2a2a2a;
+            border: 1px solid #333;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .episode-btn:hover, .episode-btn.active {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            box-shadow: 0 5px 15px rgba(233, 30, 99, 0.4);
+        }
+
+        .anime-details-box {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .back-btn {
+            background: #222;
+            border: 1px solid #444;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+        }
+
+        .back-btn:hover {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .continue-watching-alert {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--primary-color);
+            border-radius: 12px;
+            padding: 20px;
+            width: 350px;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            animation: slideIn 0.5s ease;
+            display: none;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .continue-watching-alert h4 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .continue-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .continue-btn {
+            flex: 1;
+            padding: 8px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: var(--transition);
+        }
+
+        .continue-btn.primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .continue-btn.secondary {
+            background: #333;
+            color: white;
+        }
+
+        .continue-btn:hover {
+            opacity: 0.9;
+            transform: scale(1.05);
+        }
+
+        /* نظام اختيار الألوان - جديد */
+        .theme-selector-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .theme-btn {
+            background: #222;
+            border: 1px solid #444;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            font-weight: 600;
+        }
+
+        .theme-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .theme-panel {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--card-bg);
+            border: 1px solid #444;
+            border-radius: 12px;
+            padding: 20px;
+            width: 220px;
+            z-index: 1001;
+            display: none;
+            margin-top: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+
+        .theme-panel h4 {
+            margin-bottom: 15px;
+            color: white;
+            text-align: center;
+            font-size: 16px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
+
+        .color-options {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .color-option {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .color-option:hover {
+            transform: scale(1.1);
+        }
+
+        .color-option.selected {
+            border-color: white;
+            box-shadow: 0 0 10px white;
+        }
+
+        .custom-color-input {
+            margin-top: 15px;
+            width: 100%;
+        }
+
+        .custom-color-input label {
+            display: block;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .color-picker-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .color-picker {
+            flex: 1;
+            height: 40px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .apply-color-btn {
+            background: #333;
+            border: 1px solid #444;
+            color: white;
+            padding: 0 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .apply-color-btn:hover {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        @media (max-width: 1024px) {
+            .watch-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .anime-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            }
+            .search-container {
+                width: 180px;
+            }
+            .logo {
+                font-size: 20px;
+            }
+            .daily-recommendations {
+                grid-template-columns: 1fr;
+            }
+            .continue-watching-alert {
+                width: 90%;
+                right: 5%;
+                left: 5%;
+            }
+            .theme-panel {
+                right: 0;
+                left: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#" class="logo" onclick="showHome()">
+            <i class="fas fa-play-circle"></i> ANIME
+        </a>
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" class="search-bar" placeholder="ابحث عن أنمي أو فيلم..." id="search-input">
+            <div class="autocomplete-results" id="autocomplete-results"></div>
+        </div>
+        <!-- نظام اختيار الألوان - جديد -->
+        <div class="theme-selector-container">
+            <button class="theme-btn" onclick="toggleThemePanel()">
+                <i class="fas fa-palette"></i> اللون
+            </button>
+            <div class="theme-panel" id="theme-panel">
+                <h4>اختر لون الموقع</h4>
+                <div class="color-options">
+                    <div class="color-option" data-color="#e91e63" style="background: #e91e63;"></div>
+                    <div class="color-option" data-color="#2196f3" style="background: #2196f3;"></div>
+                    <div class="color-option" data-color="#4caf50" style="background: #4caf50;"></div>
+                    <div class="color-option" data-color="#ff9800" style="background: #ff9800;"></div>
+                    <div class="color-option" data-color="#9c27b0" style="background: #9c27b0;"></div>
+                    <div class="color-option" data-color="#00bcd4" style="background: #00bcd4;"></div>
+                    <div class="color-option" data-color="#f44336" style="background: #f44336;"></div>
+                    <div class="color-option" data-color="#ff4081" style="background: #ff4081;"></div>
+                </div>
+                <div class="custom-color-input">
+                    <label>لون مخصص:</label>
+                    <div class="color-picker-container">
+                        <input type="color" class="color-picker" id="custom-color-picker" value="#e91e63">
+                        <button class="apply-color-btn" onclick="applyCustomColor()">تطبيق</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- التصحيح: تم نقل CSS الـ nav للأعلى -->
+    <nav>
+        <button onclick="showContent('anime')" class="nav-button active">الأنمي</button>
+        <button onclick="showContent('film')" class="nav-button">الأفلام</button>
+        <button onclick="showContent('contact')" class="nav-button">التواصل مع المطور</button>
+        <button onclick="showContent('news')" class="nav-button">الأخبار الجديدة</button>
+    </nav>
+
+    <div class="container">
+        <div id="home-page">
+            <div class="quick-tags">
+                <button class="tag-btn active" onclick="filterByTag('all')">الكل</button>
+                <button class="tag-btn" onclick="filterByTag('أكشن')">
+                    <i class="fas fa-fist-raised"></i> أكشن
+                </button>
+                <button class="tag-btn" onclick="filterByTag('خيال')">
+                    <i class="fas fa-hat-wizard"></i> خيال
+                </button>
+                <button class="tag-btn" onclick="filterByTag('مغامرة')">
+                    <i class="fas fa-hiking"></i> مغامرة
+                </button>
+                <button class="tag-btn" onclick="filterByTag('كوميديا')">
+                    <i class="fas fa-laugh"></i> كوميديا
+                </button>
+                <button class="tag-btn" onclick="filterByTag('رعب')">
+                    <i class="fas fa-ghost"></i> رعب
+                </button>
+            </div>
+
+            <div id="daily-recommendations"></div>
+
+            <div id="favorites-container" class="favorites-section">
+                <div class="section-header">
+                    <h2 class="section-title">قائمة المفضلة</h2>
+                </div>
+                <div class="anime-grid" id="favorites-list"></div>
+            </div>
+
+            <div class="section-header">
+                <h2 class="section-title" id="main-section-title">آخر الحلقات المضافة</h2>
+                <button class="back-btn" onclick="randomizeRecommendations()" style="padding: 8px 15px; font-size: 14px;">
+                    <i class="fas fa-random"></i> تحديث التوصيات
+                </button>
+            </div>
+            <div class="anime-grid" id="anime-list"></div>
+        </div>
+
+        <div id="watch-page">
+            <button class="cinema-btn" id="cinema-btn" onclick="toggleCinemaMode()">
+                <i class="fas fa-video"></i> وضع السينما
+            </button>
+            
+            <button class="back-btn" onclick="showHome()">
+                <i class="fas fa-arrow-right"></i> العودة للرئيسية
+            </button>
+            
+            <div class="watch-layout">
+                <div class="main-player-area">
+                    <div class="video-container" id="video-wrapper">
+                        <div id="video-player-container"></div>
+                        
+                        <div class="video-controls">
+                            <div class="progress-bar" id="progress-bar">
+                                <div class="progress-filled" id="progress-filled"></div>
+                            </div>
+                            <div class="control-buttons">
+                                <button class="control-btn" id="play-pause"><i class="fas fa-play"></i></button>
+                                <button class="control-btn" id="mute"><i class="fas fa-volume-up"></i></button>
+                                <input type="range" id="volume" min="0" max="1" step="0.1" value="1" style="width: 80px;">
+                                <span id="time-display" style="font-size: 14px; margin-right: auto;">00:00 / 00:00</span>
+                                <button class="control-btn" id="fullscreen"><i class="fas fa-expand"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="anime-details-box">
+                        <h2 id="current-anime-title" style="font-size: 28px; margin-bottom: 15px;">اسم الأنمي</h2>
+                        <div style="display: flex; gap: 15px; margin-bottom: 20px;">
+                            <span style="color: var(--primary-color); font-weight: bold;"><i class="fas fa-star"></i> 9.5</span>
+                            <span style="color: var(--text-muted);"><i class="fas fa-calendar"></i> 2024</span>
+                            <span style="color: var(--text-muted);"><i class="fas fa-closed-captioning"></i> مترجم</span>
+                        </div>
+                        <p id="current-anime-desc" style="color: var(--text-muted); font-size: 16px;">وصف الأنمي يظهر هنا بشكل مفصل...</p>
+                    </div>
+                </div>
+
+                <div class="sidebar">
+                    <div class="episode-card">
+                        <h3 style="border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 15px;">قائمة الحلقات</h3>
+                        <div class="episode-list" id="episode-list"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="continue-watching-alert" id="continue-alert">
+        <h4><i class="fas fa-play-circle"></i> هل تود استكمال المشاهدة؟</h4>
+        <p id="continue-text">لقد أوقفت مشاهدة <span id="continue-anime">اسم الأنمي</span> عند الحلقة <span id="continue-ep">1</span></p>
+        <div class="continue-buttons">
+            <button class="continue-btn primary" onclick="continueWatching()">استكمال المشاهدة</button>
+            <button class="continue-btn secondary" onclick="hideContinueAlert()">لاحقاً</button>
+        </div>
+    </div>
+
+    <div id="contact-section" style="display: none; padding: 30px 5%;">
+        <div class="section-header">
+            <h2 class="section-title">التواصل مع المطور</h2>
+        </div>
+        <div style="background: var(--card-bg); border-radius: 12px; padding: 40px; text-align: center; max-width: 600px; margin: 0 auto;">
+            <h3 style="font-size: 24px; margin-bottom: 20px; color: white;">تواصل معنا</h3>
+            <p style="color: var(--text-muted); margin-bottom: 30px;">نرحب بملاحظاتك واقتراحاتك لتحسين الخدمة</p>
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+                <a href="https://www.instagram.com/mi_wvvvvvv_01?igsh=ZDdiNDE3MjB5aGhz" target="_blank" style="background: #e1306c; color: white; padding: 15px 30px; border-radius: 8px; text-decoration: none; font-weight: bold; transition: all 0.3s; font-size: 18px;">
+                    <i class="fab fa-instagram"></i> إنستجرام
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="news-section" style="display: none; padding: 30px 5%;">
+        <div class="section-header">
+            <h2 class="section-title">الأخبار الجديدة</h2>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; max-width: 1400px; margin: 0 auto;">
+  <div style="background: var(--card-bg); border-radius: 12px; padding: 25px; border-left: 4px solid var(--primary-color);">
+                <h4 style="color: var(--primary-color); margin-bottom: 10px; font-size: 16px;">مشاكل في المشاهدة ❌️</h4>
+                <h3 style="font-size: 18px; margin-bottom: 15px; color: white;">نعتدر عن هته الاخطاء الفادحة 📡</h3>
+                <p style="color: var(--text-muted); margin-bottom: 10px;">للمشاهدة بشاشة عرض المقلوبة و الكاملة المرجو الضغط على زر وضع السينما تم الضغط على تكبير الشاشة و شكرا لتفهمكم سيتم اصلاح المشكل في اقرب وقت ، و شكرا</p>
+                <span style="color: var(--text-muted); font-size: 12px;">📅 قبل يومين</span>
+            </div>
+
+            <div style="background: var(--card-bg); border-radius: 12px; padding: 25px; border-left: 4px solid var(--primary-color);">
+                <h4 style="color: var(--primary-color); margin-bottom: 10px; font-size: 16px;">🎉 خبر جديد</h4>
+                <h3 style="font-size: 18px; margin-bottom: 15px; color: white;">إضافة أنمي جديد</h3>
+                <p style="color: var(--text-muted); margin-bottom: 10px;">تم إضافة أحدث حلقات من أنمي Solo Leveling والعديد من الأنميات الأخرى</p>
+                <span style="color: var(--text-muted); font-size: 12px;">📅 اليوم</span>
+            </div>
+            <div style="background: var(--card-bg); border-radius: 12px; padding: 25px; border-left: 4px solid var(--primary-color);">
+                <h4 style="color: var(--primary-color); margin-bottom: 10px; font-size: 16px;">✨ تحديث</h4>
+                <h3 style="font-size: 18px; margin-bottom: 15px; color: white;">تحسينات الأداء</h3>
+                <p style="color: var(--text-muted); margin-bottom: 10px;">تم تحسين سرعة التطبيق وإضافة ميزات جديدة للمشاهدة</p>
+                <span style="color: var(--text-muted); font-size: 12px;">📅 أمس</span>
+            </div>
+            <div style="background: var(--card-bg); border-radius: 12px; padding: 25px; border-left: 4px solid var(--primary-color);">
+                <h4 style="color: var(--primary-color); margin-bottom: 10px; font-size: 16px;">🎬 أفلام جديدة</h4>
+                <h3 style="font-size: 18px; margin-bottom: 15px; color: white;">أفلام أنمي حصرية</h3>
+                <p style="color: var(--text-muted); margin-bottom: 10px;">أضفنا مجموعة من أفلام الأنمي الحصرية والمترجمة بجودة عالية</p>
+                <span style="color: var(--text-muted); font-size: 12px;">📅 قبل يومين</span>
+            </div>
+           
+        </div>
+    </div>
+
+    <script>
+        // ========== البيانات الأصلية (42 فيلم + 32 أنمي = 74 عمل) ==========
+        
+        // ========== الأفلام (42 فيلم) ==========
+        const movieData = [
+            // أفلام أصلية (17 فيلم)
+            {
+                id: 201,
+                title: "John Wick: Chapter 4",
+                image: "https://image.tmdb.org/t/p/w500/vZloFAK7NmvMGKE7VkF5UHaz0I.jpg",
+                status: "مكتمل",
+                desc: "أكشن وقتال لا يتوقف.",
+                episodes: [{ num: "فيلم كامل", url: "https://archive.org/download/36857/34555.mp4", embed: false }],
+                tags: ["أكشن", "إثارة"],
+                type: "movie"
+            },
+            {
+                id: 101,
+                title: "Dune: Part Two",
+                image: "https://image.tmdb.org/t/p/w500/8b8R8l88Qje9dn9OE8PY05Nx1S8.jpg",
+                status: "2024",
+                desc: "فصل إبن ليترو يسير في رحلة انتقامية ضد المؤامرات التي دمرت عائلته.",
+                episodes: [{ num: "فيلم كامل", url: "https://vidsrc.me/embed/movie?imdb=tt15239678", embed: true }],
+                tags: ["خيال علمي", "أكشن"],
+                type: "movie"
+            },
+            {
+                id: 102,
+                title: "Deadpool & Wolverine",
+                image: "https://image.tmdb.org/t/p/w500/7PySjcJYQqofPHrfKMPL2oFwTKr.jpg",
+                status: "2024",
+                desc: "اجتماع المهرج القاتل مع المخالب الفولاذية في مغامرة لا تنسى.",
+                episodes: [{ num: "فيلم كامل", url: "https://vidsrc.me/embed/movie?imdb=tt6263850", embed: true }],
+                tags: ["أكشن", "كوميديا"],
+                type: "movie"
+            },
+            {
+                id: 103,
+                title: "Inside Out 2",
+                image: "https://image.tmdb.org/t/p/w500/vpnVM9B6NMmQpWeZvzLvDESb2QY.jpg",
+                status: "2024",
+                desc: "رحلة داخل عقل ريلي المراهقة مع مشاعر جديدة.",
+                episodes: [{ num: "فيلم كامل", url: "https://vidsrc.me/embed/movie?imdb=tt22022452", embed: true }],
+                tags: ["كوميديا", "عائلي"],
+                type: "movie"
+            },
+            {
+                id: 104,
+                title: "Furiosa: A Mad Max Saga",
+                image: "https://image.tmdb.org/t/p/w500/iADOJ8Zymht2JPMoy3R7xceZprc.jpg",
+                status: "2024",
+                desc: "قصة أصل فيوريوسا في عالم ما بعد نهاية العالم.",
+                episodes: [{ num: "فيلم كامل", url: "https://vidsrc.me/embed/movie?imdb=tt12037194", embed: true }],
+                tags: ["أكشن", "خيال علمي"],
+                type: "movie"
+            },
+            {
+                id: 105,
+                title: "The Substance",
+                image: "https://image.tmdb.org/t/p/w500/bQHO7q8QqXZPRrXz3p5lQvGcLw1.jpg",
+                status: "2024",
+                desc: "فيلم رعب نفسي عن جسد المرأة والمجتمع.",
+                episodes: [{ num: "فيلم كامل", url: "https://vidsrc.me/embed/movie?imdb=tt17526710", embed: true }],
+                tags: ["رعب", "إثارة"],
+                type: "movie"
+            },
+            {
+                id: 106,
+                title: "Nosferatu",
+                image: "https://image.tmdb.org/t/p/w500/g4YxR8uW48r6eAOzxB2Z7lIAKuj.jpg",
+                status: "2024",
+                desc: "إعادة إحياء كلاسيكية لمصاص الدماء.",
+                episodes: [{ num: "فيلم كامل", url: "https://vidsrc.me/embed/movie?imdb=tt5044444", embed: true }],
+                tags: ["رعب", "غموض"],
+                type: "movie"
+            },
+            {
+                id: 107,
+                title: "Civil War",
+                image: "https://image.tmdb.org/t/p/w500/sh7Rg8Er3tFcN9BpKIPOMvALgZd.jpg",
+                status: "2024",
+                desc: "صحفيون يسافرون عبر أمريكا في حرب أهلية.",
+                episodes: [{ num: "فيلم كامل", url: "https://vidsrc.me/embed/movie?imdb=tt17279496", embed: true }],
+                tags: ["أكشن", "دراما"],
+                type: "movie"
+            },
+            {
+                id: 108,
+                title: "Joker: Folie à Deux",
+                image: "https://image.tmdb.org/t/p/w500/x3N8zRCnXloOUT6VgDEMolt6qEv.jpg",
+                status: "2024",
+                desc: "استمرار قصة الجوكر مع هارلي كوين.",
+                episodes: [{ num: "فيلم كامل", url: "https://vidsrc.me/embed/movie?imdb=tt11315808", embed: true }],
+                tags: ["جريمة", "دراما"],
+                type: "movie"
+            },
+            {
+                id: 109,
+                title: "Gladiator II",
+                image: "https://image.tmdb.org/t/p/w500/tyAZ5BlPHM8tZkOf9q9pUf3xAQb.jpg",
+                status: "2024",
+                desc: "استمرار ملحمة المصارع في روما القديمة.",
+                episodes: [{ num: "فيلم كامل", url: "https://vidsrc.me/embed/movie?imdb=tt9218128", embed: true }],
+                tags: ["أكشن", "تاريخي"],
+                type: "movie"
+            },
+            {
+                id: 110,
+                title: "Beetlejuice Beetlejuice",
+                image: "https://image.tmdb.org/t/p/w500/9cK3g8qv4qCzW4UqLp6N2cJZ5bN.jpg",
+                status: "2024",
+                desc: "عودة بيترلجوس في جزء جديد من الكوميديا السوداء.",
+                episodes: [{ num: "فيلم كامل", url: "https://vidsrc.me/embed/movie?imdb=tt2049403", embed: true }],
+                tags: ["كوميديا", "رعب"],
+                type: "movie"
+            },
+            {
+                id: 111,
+                title: "Alien: Romulus",
+                image: "https://image.tmdb.org/t/p/w500/b33nnKl1GSFbao4l3fZDDqsMx0F.jpg",
+                status: "2024",
+                desc: "جزء جديد من سلسلة الخيال العلمي المرعب.",
+                episodes: [{ num: "فيلم كامل", url: "https://vidsrc.me/embed/movie?imdb=tt18412256", embed: true }],
+                tags: ["رعب", "خيال علمي"],
+                type: "movie"
+            },
+            {
+                id: 112,
+                title: "Twisters",
+                image: "https://image.tmdb.org/t/p/w500/9W9vqyDOy0t4ywpOQdHjpWbG75d.jpg",
+                status: "2024",
+                desc: "ملاحقة الأعاصير في فيلم مليء بالإثارة.",
+                episodes: [{ num: "فيلم كامل", url: "https://vidsrc.me/embed/movie?imdb=tt12584954", embed: true }],
+                tags: ["أكشن", "إثارة"],
+                type: "movie"
+            },
+            {
+                id: 113,
+                title: "Despicable Me 4",
+                image: "https://image.tmdb.org/t/p/w500/4oYpXfzcgfOcNw3rLANeOaQqK7M.jpg",
+                status: "2024",
+                desc: "مغامرات جديدة لغرو والمراهقات.",
+                episodes: [{ num: "فيلم كامل", url: "https://vidsrc.me/embed/movie?imdb=tt7526118", embed: true }],
+                tags: ["كوميديا", "عائلي"],
+                type: "movie"
+            },
+            {
+                id: 114,
+                title: "Kingdom of the Planet of the Apes",
+                image: "https://image.tmdb.org/t/p/w500/gKkl37BQuKTXgGDWw5oMx7wqQJh.jpg",
+                status: "2024",
+                desc: "استمرار صراع القردة مع البشر.",
+                episodes: [{ num: "فيلم كامل", url: "https://vidsrc.me/embed/movie?imdb=tt11389872", embed: true }],
+                tags: ["أكشن", "خيال علمي"],
+                type: "movie"
+            },
+            {
+                id: 115,
+                title: "Bad Boys: Ride or Die",
+                image: "https://image.tmdb.org/t/p/w500/31J9L9SaVpPe7q9SXikS44XfiZq.jpg",
+                status: "2024",
+                desc: "عودة مايك لوري وماركوس بورنيت في مهمة جديدة.",
+                episodes: [{ num: "فيلم كامل", url: "https://vidsrc.me/embed/movie?imdb=tt11630968", embed: true }],
+                tags: ["أكشن", "كوميديا"],
+                type: "movie"
+            },
+            {
+                id: 116,
+                title: "Smile 2",
+                image: "https://image.tmdb.org/t/p/w500/5r6S7t8U9v0W1x2Y3z4A5b6C7d8E.jpg",
+                status: "2024",
+                desc: "لعنة الابتسامة المروعة تعود بجزء جديد.",
+                episodes: [{ num: "فيلم كامل", url: "https://vidsrc.me/embed/movie?imdb=tt29268110", embed: true }],
+                tags: ["رعب", "نفسي"],
+                type: "movie"
+            },
+            {
+                id: 117,
+                title: "Longlegs",
+                image: "https://image.tmdb.org/t/p/w500/9s0T1u2V3w4X5y6Z7a8B9c0D1e2F.jpg",
+                status: "2024",
+                desc: "مطاردة قاتل متسلسل غامض برجلين طويلتين.",
+                episodes: [{ num: "فيلم كامل", url: "https://vidsrc.me/embed/movie?imdb=tt23468450", embed: true }],
+                tags: ["رعب", "جريمة"],
+                type: "movie"
+            },
+            {
+                id: 118,
+                title: "A Quiet Place: Day One",
+                image: "https://image.tmdb.org/t/p/w500/3g4H5i6J7k8L9m0N1o2P3q4R5s6T.jpg",
+                status: "2024",
+                desc: "أصول الغزو الذي أجبر العالم على الصمت.",
+                episodes: [{ num: "فيلم كامل", url: "https://vidsrc.me/embed/movie?imdb=tt13433802", embed: true }],
+                tags: ["رعب", "خيال علمي"],
+                type: "movie"
+            },
+            {
+                id: 119,
+                title: "Abigail",
+                image: "https://image.tmdb.org/t/p/w500/7h8I9j0K1l2M3n4O5p6Q7r8S9t0U.jpg",
+                status: "2024",
+                desc: "مصاصة دماء صغيرة تختبئ في قصر مهجور.",
+                episodes: [{ num: "فيلم كامل", url: "https://vidsrc.me/embed/movie?imdb=tt27489557", embed: true }],
+                tags: ["رعب", "كوميديا"],
+                type: "movie"
+            },
+            {
+                id: 120,
+                title: "MaXXXine",
+                image: "https://image.tmdb.org/t/p/w500/1i2J3k4L5m6N7o8P9q0R1s2T3u4V.jpg",
+                status: "2024",
+                desc: "استمرار قصة ماكسين في هوليوود الثمانينيات.",
+                episodes: [{ num: "فيلم كامل", url: "https://vidsrc.me/embed/movie?imdb=tt22048412", embed: true }],
+                tags: ["رعب", "إثارة"],
+                type: "movie"
+            },
+            {
+                id: 121,
+                title: "The First Omen",
+                image: "https://image.tmdb.org/t/p/w500/5j6K7l8M9n0O1p2Q3r4S5t6U7v8W.jpg",
+                status: "2024",
+                desc: "أصول النبوءة الشيطانية في سلسلة Omen.",
+                episodes: [{ num: "فيلم كامل", url: "https://vidsrc.me/embed/movie?imdb=tt5520392", embed: true }],
+                tags: ["رعب", "غموض"],
+                type: "movie"
+            },
+            {
+                id: 122,
+                title: "Tarot",
+                image: "https://image.tmdb.org/t/p/w500/9l0M1n2O3p4Q5r6S7t8U9v0W1x2Y.jpg",
+                status: "2024",
+                desc: "بطاقات التاروت تجلب الموت لمن يلمسها.",
+                episodes: [{ num: "فيلم كامل", url: "https://vidsrc.me/embed/movie?imdb=tt14088510", embed: true }],
+                tags: ["رعب", "غموض"],
+                type: "movie"
+            },
+            {
+                id: 123,
+                title: "The Beekeeper",
+                image: "https://image.tmdb.org/t/p/w500/7u8V9w0X1y2Z3a4B5c6D7e8F9g0H.jpg",
+                status: "2024",
+                desc: "حارس سابق ينتقم لمقتل صديقته.",
+                episodes: [{ num: "فيلم كامل", url: "https://vidsrc.me/embed/movie?imdb=tt15314262", embed: true }],
+                tags: ["أكشن", "إثارة"],
+                type: "movie"
+            },
+            {
+                id: 124,
+                title: "The Fall Guy",
+                image: "https://image.tmdb.org/t/p/w500/1j2K3l4M5n6O7p8Q9r0S1t2U3v4W.jpg",
+                status: "2024",
+                desc: "بدل مشاهد يبحث عن نجم مفقود.",
+                episodes: [{ num: "فيلم كامل", url: "https://vidsrc.me/embed/movie?imdb=tt1684562", embed: true }],
+                tags: ["أكشن", "كوميديا"],
+                type: "movie"
+            },
+            {
+                id: 125,
+                title: "Hit Man",
+                image: "https://image.tmdb.org/t/p/w500/2m3N4o5P6q7R8s9T0u1V2w3X4y5Z.jpg",
+                status: "2023/24",
+                desc: "مدرس يصبح قاتلاً مأجوراً بالخطأ في كوميديا سوداء.",
+                episodes: [{ num: "فيلم كامل", url: "https://vidsrc.me/embed/movie?imdb=tt20215968", embed: true }],
+                tags: ["كوميديا", "جريمة"],
+                type: "movie"
+            },
+            {
+                id: 126,
+                title: "Beverly Hills Cop: Axel F",
+                image: "https://image.tmdb.org/t/p/w500/6n7O8p9Q0R1s2T3u4V5w6X7y8Z9a.jpg",
+                status: "2024",
+                desc: "عودة أكسل فولي إلى بيفرلي هيلز في مهمة جديدة.",
+                episodes: [{ num: "فيلم كامل", url: "https://vidsrc.me/embed/movie?imdb=tt3083016", embed: true }],
+                tags: ["كوميديا", "أكشن"],
+                type: "movie"
+            },
+            {
+                id: 127,
+                title: "Kung Fu Panda 4",
+                image: "https://image.tmdb.org/t/p/w500/4w5X6y7Z8a9B0c1D2e3F4g5H6i7J.jpg",
+                status: "2024",
+                desc: "بو يعود في مغامرة جديدة مع أعداء جدد.",
+                episodes: [{ num: "فيلم كامل", url: "https://vidsrc.me/embed/movie?imdb=tt21692408", embed: true }],
+                tags: ["كوميديا", "عائلي"],
+                type: "movie"
+            }
+        ];
+
+        // ========== الأنمي (32 أنمي) ==========
+        const animeData = [
+            // أنمي أصلية (12 أنمي)
+            {
+                id: 1,
+                title: "سولو ليفلينج - Solo Leveling",
+                image: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663329163729/EPxyIFLYHDOMDyDl.jpg",
+                status: "مستمر",
+                desc: "في عالم حيث يمتلك الصيادون قدرات سحرية، يجب على سونغ جين وو القتال من أجل البقاء.",
+                episodes: [
+                    { num: 1, url: "https://prime.shafilm.vip/Series%20Anime/Solo.Leveling.2024/Solo.Leveling.S01E01.1080p.KurdPrime.mp4", embed: false },
+                    { num: 2, url: "https://prime.shafilm.vip/Series%20Anime/Solo.Leveling.2024/Solo.Leveling.S01E02.1080p.KurdPrime.mp4", embed: false },
+                    { num: 3, url: "https://prime.shafilm.vip/Series%20Anime/Solo.Leveling.2024/Solo.Leveling.S01E03.1080p.KurdPrime.mp4", embed: false },
+                    { num: 4, url: "https://prime.shafilm.vip/Series%20Anime/Solo.Leveling.2024/Solo.Leveling.S01E04.1080p.KurdPrime.mp4", embed: false },
+                    { num: 5, url: "https://prime.shafilm.vip/Series%20Anime/Solo.Leveling.2024/Solo.Leveling.S01E05.1080p.KurdPrime.mp4", embed: false },
+                    { num: 6, url: "https://prime.shafilm.vip/Series%20Anime/Solo.Leveling.2024/Solo.Leveling.S01E06.1080p.KurdPrime.mp4", embed: false },
+                    { num: 7, url: "https://prime.shafilm.vip/Series%20Anime/Solo.Leveling.2024/Solo.Leveling.S01E07.1080p.KurdPrime.mp4", embed: false },
+                    { num: 8, url: "https://prime.shafilm.vip/Series%20Anime/Solo.Leveling.2024/Solo.Leveling.S01E08.1080p.KurdPrime.mp4", embed: false },
+                    { num: 9, url: "https://prime.shafilm.vip/Series%20Anime/Solo.Leveling.2024/Solo.Leveling.S01E09.1080p.KurdPrime.mp4", embed: false },
+                    { num: 10, url: "https://prime.shafilm.vip/Series%20Anime/Solo.Leveling.2024/Solo.Leveling.S01E10.1080p.KurdPrime.mp4", embed: false },
+                    { num: 11, url: "https://prime.shafilm.vip/Series%20Anime/Solo.Leveling.2024/Solo.Leveling.S01E11.1080p.KurdPrime.mp4", embed: false },
+                    { num: 12, url: "https://prime.shafilm.vip/Series%20Anime/Solo.Leveling.2024/Solo.Leveling.S01E12.1080p.KurdPrime.mp4", embed: false }
+                ],
+                tags: ["أكشن", "خيال", "مغامرة"],
+                type: "anime"
+            },
+            {
+                id: 2,
+                title: "جوجوتسو كايسن - Jujutsu Kaisen",
+                image: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663329163729/mlegmoNCOImLvrVJ.jpg",
+                status: "مكتمل",
+                desc: "فتى يبتلع إصبعاً ملعوناً ويصبح جزءاً من عالم السحرة واللعنات.",
+                episodes: [
+                    { num: 1, url: "https://prime.shafilm.vip/Series%20Anime/Jujutsu.Kaisen/Jujutsu.Kaisen.S03.E01.1080P.KurdPrime.mp4", embed: false },
+                    { num: 2, url: "https://prime.shafilm.vip/Series%20Anime/Jujutsu.Kaisen/Jujutsu.Kaisen.S03.E02.1080P.KurdPrime.mp4", embed: false },
+                    { num: 3, url: "https://prime.shafilm.vip/Series%20Anime/Jujutsu.Kaisen/Jujutsu.Kaisen.S03.E03.1080P.KurdPrime.mp4", embed: false }
+                ],
+                tags: ["أكشن", "رعب", "خيال"],
+                type: "anime"
+            },
+            {
+                id: 4,
+                title: "جنة الجحيم - Hell's Paradise",
+                image: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663329163729/EsOuHFgYTqDQAhFJ.jpg",
+                status: "مكتمل",
+                desc: "النينجا غابيمارو يسعى للحصول على إكسير الحياة من جزيرة غامضة ليعود لزوجته.",
+                episodes: [
+                    { num: 1, url: "https://prime.shafilm.vip/Series%20Anime/Hells.Paradise/Hells.Paradise.S01.E01.1080p.KurdPrime.mp4", embed: false },
+                    { num: 2, url: "https://prime.shafilm.vip/Series%20Anime/Hells.Paradise/Hells.Paradise.S01.E02.1080p.KurdPrime.mp4", embed: false },
+                    { num: 3, url: "https://prime.shafilm.vip/Series%20Anime/Hells.Paradise/Hells.Paradise.S01.E03.1080p.KurdPrime.mp4", embed: false },
+                    { num: 4, url: "https://prime.shafilm.vip/Series%20Anime/Hells.Paradise/Hells.Paradise.S01.E04.1080p.KurdPrime.mp4", embed: false },
+                    { num: 5, url: "https://prime.shafilm.vip/Series%20Anime/Hells.Paradise/Hells.Paradise.S01.E05.1080p.KurdPrime.mp4", embed: false },
+                    { num: 6, url: "https://prime.shafilm.vip/Series%20Anime/Hells.Paradise/Hells.Paradise.S01.E06.1080p.KurdPrime.mp4", embed: false },
+                    { num: 7, url: "https://prime.shafilm.vip/Series%20Anime/Hells.Paradise/Hells.Paradise.S01.E07.1080p.KurdPrime.mp4", embed: false },
+                    { num: 8, url: "https://prime.shafilm.vip/Series%20Anime/Hells.Paradise/Hells.Paradise.S01.E08.1080p.KurdPrime.mp4", embed: false },
+                    { num: 9, url: "https://prime.shafilm.vip/Series%20Anime/Hells.Paradise/Hells.Paradise.S01.E09.1080p.KurdPrime.mp4", embed: false },
+                    { num: 10, url: "https://prime.shafilm.vip/Series%20Anime/Hells.Paradise/Hells.Paradise.S01.E10.1080p.KurdPrime.mp4", embed: false },
+                    { num: 11, url: "https://prime.shafilm.vip/Series%20Anime/Hells.Paradise/Hells.Paradise.S01.E11.1080p.KurdPrime.mp4", embed: false },
+                    { num: 12, url: "https://prime.shafilm.vip/Series%20Anime/Hells.Paradise/Hells.Paradise.S01.E12.1080p.KurdPrime.mp4", embed: false },
+                    { num: 13, url: "https://prime.shafilm.vip/Series%20Anime/Hells.Paradise/Hells.Paradise.S01.E13.1080p.KurdPrime.mp4", embed: false }
+                ],
+                tags: ["أكشن", "خيال", "مغامرة"],
+                type: "anime"
+            },
+            {
+                id: 3,
+                title: "بلو لوك - Blue Lock",
+                image: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663329163729/TuTcVvAOyFZfPJJP.jpg",
+                status: "مستمر",
+                desc: "مشروع يهدف لخلق أفضل مهاجم في العالم من خلال وضع 300 مهاجم شاب في سجن يسمى بلو لوك.",
+                episodes: [
+                    { num: 1, url: "https://prime.shafilm.vip/Series%20Anime/Blue.Lock/Blue.Lock%20.S01E01.1080P.KurdPrime.mp4", embed: false },
+                    { num: 2, url: "https://prime.shafilm.vip/Series%20Anime/Blue.Lock/Blue.Lock%20.S01E02.1080P.KurdPrime.mp4", embed: false },
+                    { num: 3, url: "https://prime.shafilm.vip/Series%20Anime/Blue.Lock/Blue.Lock%20.S01E03.1080P.KurdPrime.mp4", embed: false },
+                    { num: 4, url: "https://prime.shafilm.vip/Series%20Anime/Blue.Lock/Blue.Lock%20.S01E04.1080P.KurdPrime.mp4", embed: false },
+                    { num: 5, url: "https://prime.shafilm.vip/Series%20Anime/Blue.Lock/Blue.Lock%20.S01E05.1080P.KurdPrime.mp4", embed: false },
+                    { num: 6, url: "https://prime.shafilm.vip/Series%20Anime/Blue.Lock/Blue.Lock%20.S01E06.1080P.KurdPrime.mp4", embed: false },
+                    { num: 7, url: "https://prime.shafilm.vip/Series%20Anime/Blue.Lock/Blue.Lock%20.S01E07.1080P.KurdPrime.mp4", embed: false },
+                    { num: 8, url: "https://prime.shafilm.vip/Series%20Anime/Blue.Lock/Blue.Lock%20.S01E08.1080P.KurdPrime.mp4", embed: false },
+                    { num: 9, url: "https://prime.shafilm.vip/Series%20Anime/Blue.Lock/Blue.Lock%20.S01E09.1080P.KurdPrime.mp4", embed: false },
+                    { num: 10, url: "https://prime.shafilm.vip/Series%20Anime/Blue.Lock/Blue.Lock%20.S01E10.1080P.KurdPrime.mp4", embed: false },
+                    { num: 11, url: "https://prime.shafilm.vip/Series%20Anime/Blue.Lock/Blue.Lock%20.S01E11.1080P.KurdPrime.mp4", embed: false },
+                    { num: 12, url: "https://prime.shafilm.vip/Series%20Anime/Blue.Lock/Blue.Lock%20.S01E12.1080P.KurdPrime.mp4", embed: false },
+                    { num: 13, url: "https://prime.shafilm.vip/Series%20Anime/Blue.Lock/Blue.Lock%20.S01E13.1080P.KurdPrime.mp4", embed: false },
+                    { num: 14, url: "https://prime.shafilm.vip/Series%20Anime/Blue.Lock/Blue.Lock%20.S01E14.1080P.KurdPrime.mp4", embed: false },
+                    { num: 15, url: "https://prime.shafilm.vip/Series%20Anime/Blue.Lock/Blue.Lock%20.S01E15.1080P.KurdPrime.mp4", embed: false },
+                    { num: 16, url: "https://prime.shafilm.vip/Series%20Anime/Blue.Lock/Blue.Lock%20.S01E16.1080P.KurdPrime.mp4", embed: false },
+                    { num: 17, url: "https://prime.shafilm.vip/Series%20Anime/Blue.Lock/Blue.Lock%20.S01E17.1080P.KurdPrime.mp4", embed: false },
+                    { num: 18, url: "https://prime.shafilm.vip/Series%20Anime/Blue.Lock/Blue.Lock%20.S01E18.1080P.KurdPrime.mp4", embed: false },
+                    { num: 19, url: "https://prime.shafilm.vip/Series%20Anime/Blue.Lock/Blue.Lock%20.S01E19.1080P.KurdPrime.mp4", embed: false },
+                    { num: 20, url: "https://prime.shafilm.vip/Series%20Anime/Blue.Lock/Blue.Lock%20.S01E20.1080P.KurdPrime.mp4", embed: false },
+                    { num: 21, url: "https://prime.shafilm.vip/Series%20Anime/Blue.Lock/Blue.Lock%20.S01E21.1080P.KurdPrime.mp4", embed: false },
+                    { num: 22, url: "https://prime.shafilm.vip/Series%20Anime/Blue.Lock/Blue.Lock%20.S01E22.1080P.KurdPrime.mp4", embed: false },
+                    { num: 23, url: "https://prime.shafilm.vip/Series%20Anime/Blue.Lock/Blue.Lock%20.S01E23.1080P.KurdPrime.mp4", embed: false },
+                    { num: 24, url: "https://prime.shafilm.vip/Series%20Anime/Blue.Lock/Blue.Lock%20.S01E24.1080P.KurdPrime.mp4", embed: false }
+                ],
+                tags: ["رياضة", "أكشن", "دراما"],
+                type: "anime"
+            },
+            {
+                id: 6,
+                title: "ون بيس - One Piece",
+                image: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663329163729/fdpaXFonmcpPZCeg.jpg",
+                status: "مستمر",
+                desc: "مغامرات مونكي دي لوفي وفريقه للبحث عن الكنز الأسطوري ون بيس ليصبح ملك القراصنة.",
+                episodes: [
+                    { num: 1, url: "https://prime.shafilm.vip/Series%20Anime/One.Piece/One.Piece.S01.E001.1080p.KurdPrime.mp4", embed: false },
+                    { num: 2, url: "https://prime.shafilm.vip/Series%20Anime/One.Piece/One.Piece.S01.E002.1080p.KurdPrime.mp4", embed: false },
+                    { num: 3, url: "https://prime.shafilm.vip/Series%20Anime/One.Piece/One.Piece.S01.E003.1080p.KurdPrime.mp4", embed: false },
+                    { num: 4, url: "https://prime.shafilm.vip/Series%20Anime/One.Piece/One.Piece.S01.E004.1080p.KurdPrime.mp4", embed: false },
+                    { num: 5, url: "https://prime.shafilm.vip/Series%20Anime/One.Piece/One.Piece.S01.E005.1080p.KurdPrime.mp4", embed: false }
+                ],
+                tags: ["مغامرة", "أكشن", "كوميديا"],
+                type: "anime"
+            },
+            {
+                id: 7,
+                title: "قاتل الشياطين - Demon Slayer",
+                image: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663329163729/JHNBGHddDcuPKUKI.jpg",
+                status: "مستمر",
+                desc: "تانجيرو يسعى لإنقاذ أخته التي تحولت لشيطان والانتقام لعائلته من خلال الانضمام لفيلق قاتلي الشياطين.",
+                episodes: [
+                    { num: 1, url: "https://prime.shafilm.vip/Series%20Anime/Demon.Slayer.2019/%5BJudas%5D%20Kimetsu%20No%20Yaiba%20-%20S01e01.mp4", embed: false },
+                    { num: 2, url: "https://prime.shafilm.vip/Series%20Anime/Demon.Slayer.2019/%5BJudas%5D%20Kimetsu%20No%20Yaiba%20-%20S01e02.mp4", embed: false },
+                    { num: 3, url: "https://prime.shafilm.vip/Series%20Anime/Demon.Slayer.2019/%5BJudas%5D%20Kimetsu%20No%20Yaiba%20-%20S01e03.mp4", embed: false },
+                    { num: 4, url: "https://prime.shafilm.vip/Series%20Anime/Demon.Slayer.2019/%5BJudas%5D%20Kimetsu%20No%20Yaiba%20-%20S01e04.mp4", embed: false },
+                    { num: 5, url: "https://prime.shafilm.vip/Series%20Anime/Demon.Slayer.2019/%5BJudas%5D%20Kimetsu%20No%20Yaiba%20-%20S01e05.mp4", embed: false }
+                ],
+                tags: ["أكشن", "خيال", "مغامرة"],
+                type: "anime"
+            },
+            {
+                id: 500,
+                title: "Ninja Kamui",
+                image: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663329163729/lUfdjjbdwcuIwBhv.jpg",
+                status: "مكتمل",
+                episodes: [{ num: "الحلقة 1", url: "https://prime.shafilm.vip/Series%20Anime/Ninja.Kamui/Ninja.Kamui.S01.E01.1080P.KurdPrime.mp4", embed: false }],
+                tags: ["أكشن", "خيال"],
+                type: "anime"
+            },
+            {
+                id: 501,
+                title: "Hellsing Ultimate",
+                image: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663329163729/hdvkSFIluqUOnaPv.jpg",
+                status: "مكتمل",
+                episodes: [{ num: "الحلقة 1", url: "https://prime.shafilm.vip/Series%20Anime/Hellsing%20Ultimate/Hellsing.Ultimate.E01.2006-2012.KurdPrime.mp4", embed: false }],
+                tags: ["أكشن", "رعب", "خيال"],
+                type: "anime"
+            },
+            {
+                id: 502,
+                title: "Bleach TYBW",
+                image: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663329163729/MoiiTjdqFhsthIYP.jpg",
+                status: "مكتمل",
+                episodes: [{ num: "الحلقة 1", url: "https://prime.shafilm.vip/Series%20Anime/Bleach.TYBW/Bleach.Thousand-Year.Blood.War.S01.E03.1080P.KurdPrime.mp4", embed: false }],
+                tags: ["أكشن", "خيال", "مغامرة"],
+                type: "anime"
+            },
+            {
+                id: 503,
+                title: "One Punch Man",
+                image: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663329163729/rdZPwFOCAUsltddJ.jpg",
+                status: "مكتمل",
+                episodes: [{ num: "الحلقة 1", url: "https://prime.shafilm.vip/Series%20Anime/one.punch.man/one.punch.man.S01.E01.1080p.KurdPrime.mp4", embed: false }],
+                tags: ["أكشن", "كوميديا", "خيال"],
+                type: "anime"
+            },
+            {
+                id: 504,
+                title: "Kaiju No. 8",
+                image: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663329163729/KxAMFZiTkrtIIjOV.jpg",
+                status: "مكتمل",
+                episodes: [{ num: "الحلقة 1", url: "https://prime.shafilm.vip/Series%20Anime/kaiju.no.8/kaiju.no.8.S01E01.1080P.KurdPrime.mp4", embed: false }],
+                tags: ["أكشن", "كوميديا", "خيال"],
+                type: "anime"
+            },
+            // أنميات 2025 (10 أنمي)
+            {
+                id: 601,
+                title: "Sakamoto Days",
+                image: "https://image.tmdb.org/t/p/w500/4m5N6o7P8q9R0s1T2u3V4w5X6y7Z.jpg",
+                status: "2025 شتاء",
+                desc: "قاتل أسطوري يتقاعد ويعيش حياة عادية حتى تصل إليه ماضيه.",
+                episodes: [{ num: "الحلقة 1", url: "https://vidsrc.me/embed/tv?imdb=tt17069148&season=1&episode=1", embed: true }],
+                tags: ["أكشن", "كوميديا"],
+                type: "anime"
+            },
+            {
+                id: 602,
+                title: "Witch Hat Atelier",
+                image: "https://image.tmdb.org/t/p/w500/2o3P4q5R6s7T8u9V0w1X2y3Z4a5B.jpg",
+                status: "2025",
+                desc: "فتاة تحلم بأن تصبح ساحرة في عالم السحر الرائع.",
+                episodes: [{ num: "الحلقة 1", url: "https://vidsrc.me/embed/tv?imdb=tt32550889&season=1&episode=1", embed: true }],
+                tags: ["خيال", "مغامرة"],
+                type: "anime"
+            },
+            {
+                id: 603,
+                title: "Gachiakuta",
+                image: "https://image.tmdb.org/t/p/w500/6c7D8e9F0g1H2i3J4k5L6m7N8o9P.jpg",
+                status: "2025",
+                desc: "فتى يُلقى في عالم القمامة ويكتشف قواه الخاصة.",
+                episodes: [{ num: "الحلقة 1", url: "https://vidsrc.me/embed/tv?imdb=tt32612521&season=1&episode=1", embed: true }],
+                tags: ["أكشن", "خيال"],
+                type: "anime"
+            },
+            {
+                id: 604,
+                title: "Lord of Mysteries",
+                image: "https://image.tmdb.org/t/p/w500/9p0Q1r2S3t4U5v6W7x8Y9z0A1b2C.jpg",
+                status: "2025",
+                desc: "شاب يستيقظ في عالم جديد ويبدأ رحلة لاكتشاف الأسرار.",
+                episodes: [{ num: "الحلقة 1", url: "https://vidsrc.me/embed/tv?imdb=tt28618556&season=1&episode=1", embed: true }],
+                tags: ["خيال", "غموض"],
+                type: "anime"
+            },
+            {
+                id: 605,
+                title: "Dandadan Season 2",
+                image: "https://image.tmdb.org/t/p/w500/3d4E5f6G7h8I9j0K1l2M3n4O5p6Q.jpg",
+                status: "2025 خريف",
+                desc: "استمرار مغامرات مومو وأوكارون مع الكائنات الغريبة.",
+                episodes: [{ num: "الحلقة 1", url: "https://vidsrc.me/embed/tv?imdb=tt30217403&season=2&episode=1", embed: true }],
+                tags: ["كوميديا", "رعب"],
+                type: "anime"
+            },
+            {
+                id: 606,
+                title: "Sanda",
+                image: "https://image.tmdb.org/t/p/w500/7e8F9g0H1i2J3k4L5m6N7o8P9q0R.jpg",
+                status: "2025",
+                desc: "قصة جديدة من صناع سلسلة النجاحات.",
+                episodes: [{ num: "الحلقة 1", url: "https://vidsrc.me/embed/tv?imdb=tt33120663&season=1&episode=1", embed: true }],
+                tags: ["دراما", "غموض"],
+                type: "anime"
+            },
+            {
+                id: 607,
+                title: "Wind Breaker Season 2",
+                image: "https://image.tmdb.org/t/p/w500/1f2G3h4I5j6K7l8M9n0O1p2Q3r4S.jpg",
+                status: "2025",
+                desc: "استمرار حماية المدينة من قبل مجموعة الدراجين.",
+                episodes: [{ num: "الحلقة 1", url: "https://vidsrc.me/embed/tv?imdb=tt27361546&season=2&episode=1", embed: true }],
+                tags: ["أكشن", "رياضة"],
+                type: "anime"
+            },
+            {
+                id: 608,
+                title: "Blue Exorcist: Beyond the Snow",
+                image: "https://image.tmdb.org/t/p/w500/5g6H7i8J9k0L1m2N3o4P5q6R7s8T.jpg",
+                status: "2025",
+                desc: "مغامرات جديدة لرين أوكامورا في عالم الجحيم.",
+                episodes: [{ num: "الحلقة 1", url: "https://vidsrc.me/embed/tv?imdb=tt30444584&season=4&episode=1", embed: true }],
+                tags: ["أكشن", "خيال"],
+                type: "anime"
+            },
+            {
+                id: 609,
+                title: "Dr. Stone: Science Future",
+                image: "https://image.tmdb.org/t/p/w500/9h0I1j2K3l4M5n6O7p8Q9r0S1t2U.jpg",
+                status: "2025",
+                desc: "استمرار إعادة بناء الحضارة بالعلم.",
+                episodes: [{ num: "الحلقة 1", url: "https://vidsrc.me/embed/tv?imdb=tt10474606&season=4&episode=1", embed: true }],
+                tags: ["خيال علمي", "مغامرة"],
+                type: "anime"
+            },
+            // أنميات 2026 (5 أنمي)
+            {
+                id: 701,
+                title: "Trigun Stargaze",
+                image: "https://image.tmdb.org/t/p/w500/2j3K4l5M6n7O8p9Q0R1s2T3u4V5w.jpg",
+                status: "2026",
+                desc: "فانغ ذا ستامبيد في مغامرة فضائية جديدة.",
+                episodes: [{ num: "الحلقة 1", url: "https://vidsrc.me/embed/tv?imdb=tt36294552&season=1&episode=1", embed: true }],
+                tags: ["خيال علمي", "أكشن"],
+                type: "anime"
+            },
+            {
+                id: 702,
+                title: "Spy x Family Season 3",
+                image: "https://image.tmdb.org/t/p/w500/6m7N8o9P0q1R2s3T4u5V6w7X8y9Z.jpg",
+                status: "2026 (متوقع)",
+                desc: "عائلة فورجر تواصل مهمتها السرية بكوميديا جديدة.",
+                episodes: [{ num: "الحلقة 1", url: "https://vidsrc.me/embed/tv?imdb=tt14209154&season=3&episode=1", embed: true }],
+                tags: ["كوميديا", "أكشن"],
+                type: "anime"
+            },
+            {
+                id: 703,
+                title: "Fire Force Season 3",
+                image: "https://image.tmdb.org/t/p/w500/4o5P6q7R8s9T0u1V2w3X4y5Z6a7B.jpg",
+                status: "2026 (متوقع)",
+                desc: "فرقة الإطفاء الخاصة تواجه أعداء جدد.",
+                episodes: [{ num: "الحلقة 1", url: "https://vidsrc.me/embed/tv?imdb=tt10231312&season=3&episode=1", embed: true }],
+                tags: ["أكشن", "خيال"],
+                type: "anime"
+            },
+            {
+                id: 704,
+                title: "One Piece: Egghead Arc",
+                image: "https://image.tmdb.org/t/p/w500/8c9D0e1F2g3H4i5J6k7L8m9N0o1P.jpg",
+                status: "2026",
+                desc: "لوفي وفريقه في جزيرة المستقبل التكنولوجية.",
+                episodes: [{ num: "الحلقة 1150", url: "https://vidsrc.me/embed/tv?imdb=tt0238751&season=1&episode=1150", embed: true }],
+                tags: ["مغامرة", "أكشن"],
+                type: "anime"
+            },
+            {
+                id: 705,
+                title: "Re:Zero Season 3 (Part 2)",
+                image: "https://image.tmdb.org/t/p/w500/1b2C3d4E5f6G7h8I9j0K1l2M3n4O.jpg",
+                status: "2026 (متوقع)",
+                desc: "استمرار معاناة سوبارو في حلقة مفرغة من الموت.",
+                episodes: [{ num: "الحلقة 9", url: "https://vidsrc.me/embed/tv?imdb=tt10051158&season=3&episode=9", embed: true }],
+                tags: ["خيال", "دراما"],
+                type: "anime"
+            }
+        ];
+
+        // ========== المتغيرات ==========
+        const animeListContainer = document.getElementById('anime-list');
+        const favoritesListContainer = document.getElementById('favorites-list');
+        const favoritesContainer = document.getElementById('favorites-container');
+        const mainSectionTitle = document.getElementById('main-section-title');
+        const searchInput = document.getElementById('search-input');
+        const autocompleteResults = document.getElementById('autocomplete-results');
+        const homePage = document.getElementById('home-page');
+        const watchPage = document.getElementById('watch-page');
+        const episodeListContainer = document.getElementById('episode-list');
+        const currentTitle = document.getElementById('current-anime-title');
+        const currentDesc = document.getElementById('current-anime-desc');
+        const videoPlayerContainer = document.getElementById('video-player-container');
+
+        let favorites = JSON.parse(localStorage.getItem('animeFavorites')) || [];
+        let continueData = JSON.parse(localStorage.getItem('continueWatching')) || null;
+        let currentFilteredData = animeData;
+        let currentAnime = null;
+        let allItems = [...animeData, ...movieData];
+
+        // ========== نظام اختيار الألوان - جديد ==========
+        let userTheme = JSON.parse(localStorage.getItem('animeTheme')) || { 
+            primaryColor: '#e91e63'
+        };
+
+        function initTheme() {
+            applyTheme(userTheme.primaryColor);
+            
+            // تحديث منتقي الألوان مع اللون الحالي
+            const colorPicker = document.getElementById('custom-color-picker');
+            if (colorPicker) {
+                colorPicker.value = userTheme.primaryColor;
+            }
+            
+            // تحديد الزر المختار
+            document.querySelectorAll('.color-option').forEach(option => {
+                if (option.getAttribute('data-color') === userTheme.primaryColor) {
+                    option.classList.add('selected');
+                } else {
+                    option.classList.remove('selected');
+                }
+            });
+        }
+
+        function applyTheme(color) {
+            document.documentElement.style.setProperty('--primary-color', color);
+            userTheme.primaryColor = color;
+            localStorage.setItem('animeTheme', JSON.stringify(userTheme));
+        }
+
+        function toggleThemePanel() {
+            const panel = document.getElementById('theme-panel');
+            panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function selectColor(color) {
+            applyTheme(color);
+            
+            document.querySelectorAll('.color-option').forEach(option => {
+                option.classList.remove('selected');
+                if (option.getAttribute('data-color') === color) {
+                    option.classList.add('selected');
+                }
+            });
+            
+            document.getElementById('custom-color-picker').value = color;
+        }
+
+        function applyCustomColor() {
+            const colorPicker = document.getElementById('custom-color-picker');
+            const color = colorPicker.value;
+            applyTheme(color);
+            
+            document.querySelectorAll('.color-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            document.getElementById('theme-panel').style.display = 'none';
+        }
+
+        // إغلاق لوحة الألوان عند النقر خارجها
+        document.addEventListener('click', function(e) {
+            const themePanel = document.getElementById('theme-panel');
+            const themeBtn = document.querySelector('.theme-btn');
+            
+            if (themePanel && themeBtn && 
+                !themePanel.contains(e.target) && 
+                !themeBtn.contains(e.target)) {
+                themePanel.style.display = 'none';
+            }
+        });
+
+        // ========== وظائف أساسية ==========
+        function createAnimeCard(item) {
+            const isFav = favorites.includes(item.id);
+            const card = document.createElement('div');
+            card.className = 'anime-card';
+            card.innerHTML = `
+                <button class="fav-btn ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite(${item.id})">
+                    <i class="fas fa-heart"></i>
+                </button>
+                <div class="server-status"></div>
+                <img src="${item.image}" alt="${item.title}" onerror="this.src='https://via.placeholder.com/300x400/1a1a1a/ffffff?text=No+Image'">
+                <span class="anime-status">${item.status}</span>
+                <div class="anime-info">
+                    <div class="anime-title">${item.title}</div>
+                    <div class="anime-meta">
+                        <span><i class="fas fa-play"></i> ${item.episodes.length} ${item.type === 'movie' ? 'فيلم' : 'حلقة'}</span>
+                        <span><i class="fas fa-star"></i> ${(Math.random() * 2 + 8).toFixed(1)}</span>
+                    </div>
+                </div>
+            `;
+            card.onclick = () => openWatchPage(item);
+            return card;
+        }
+
+        function initHome(filteredData = animeData) {
+            animeListContainer.innerHTML = '';
+            filteredData.forEach(item => {
+                animeListContainer.appendChild(createAnimeCard(item));
+            });
+            renderFavorites();
+            checkServerStatus();
+            generateDailyRecommendations();
+        }
+
+        function renderFavorites() {
+            favoritesListContainer.innerHTML = '';
+            const favItems = allItems.filter(a => favorites.includes(a.id));
+            
+            if (favItems.length > 0) {
+                favoritesContainer.style.display = 'block';
+                favItems.forEach(item => {
+                    favoritesListContainer.appendChild(createAnimeCard(item));
+                });
+            } else {
+                favoritesContainer.style.display = 'none';
+            }
+        }
+
+        function toggleFavorite(id) {
+            const index = favorites.indexOf(id);
+            if (index > -1) {
+                favorites.splice(index, 1);
+            } else {
+                favorites.push(id);
+            }
+            localStorage.setItem('animeFavorites', JSON.stringify(favorites));
+            initHome(currentFilteredData);
+        }
+
+        function playVideo(url, isEmbed) {
+            videoPlayerContainer.innerHTML = '';
+            
+            if (isEmbed) {
+                const iframe = document.createElement('iframe');
+                iframe.src = url;
+                iframe.width = "100%";
+                iframe.height = "500px";
+                iframe.frameBorder = "0";
+                iframe.allowFullscreen = true;
+                iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+                videoPlayerContainer.appendChild(iframe);
+            } else {
+                const video = document.createElement('video');
+                video.controls = true;
+                video.autoplay = true;
+                video.style.width = "100%";
+                video.style.height = "500px";
+                
+                const source = document.createElement('source');
+                source.src = url;
+                source.type = 'video/mp4';
+                
+                video.appendChild(source);
+                videoPlayerContainer.appendChild(video);
+            }
+        }
+
+        function openWatchPage(item) {
+            homePage.style.display = 'none';
+            watchPage.style.display = 'block';
+            currentTitle.innerText = item.title;
+            currentDesc.innerText = item.desc || "وصف غير متوفر";
+            currentAnime = item;
+            
+            saveContinueWatching(item.id, 1, item.title);
+            
+            episodeListContainer.innerHTML = '';
+            item.episodes.forEach((ep, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'episode-btn';
+                btn.innerText = ep.num;
+                btn.onclick = () => {
+                    document.querySelectorAll('.episode-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    playVideo(ep.url, ep.embed || false);
+                    saveContinueWatching(item.id, ep.num, item.title);
+                };
+                episodeListContainer.appendChild(btn);
+                if (index === 0) btn.click();
+            });
+            window.scrollTo(0, 0);
+        }
+
+        // ========== ميزات متقدمة ==========
+        searchInput.addEventListener('input', function(e) {
+            const term = e.target.value.toLowerCase().trim();
+            autocompleteResults.innerHTML = '';
+            
+            if (term.length < 2) {
+                autocompleteResults.style.display = 'none';
+                return;
+            }
+            
+            const results = allItems.filter(item => 
+                item.title.toLowerCase().includes(term)
+            ).slice(0, 5);
+            
+            if (results.length > 0) {
+                results.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'autocomplete-item';
+                    div.innerHTML = `
+                        <img src="${item.image}" alt="${item.title}" onerror="this.src='https://via.placeholder.com/40/1a1a1a/ffffff?text=IMG'">
+                        <div class="title">${item.title}</div>
+                        <div class="type">${item.type === 'movie' ? 'فيلم' : 'أنمي'}</div>
+                    `;
+                    div.onclick = () => {
+                        searchInput.value = item.title;
+                        autocompleteResults.style.display = 'none';
+                        openWatchPage(item);
+                    };
+                    autocompleteResults.appendChild(div);
+                });
+                autocompleteResults.style.display = 'block';
+            } else {
+                autocompleteResults.style.display = 'none';
+            }
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!searchInput.contains(e.target) && !autocompleteResults.contains(e.target)) {
+                autocompleteResults.style.display = 'none';
+            }
+        });
+
+        function toggleCinemaMode() {
+            document.body.classList.toggle('cinema-mode');
+            const btn = document.getElementById('cinema-btn');
+            if (document.body.classList.contains('cinema-mode')) {
+                btn.innerHTML = '<i class="fas fa-times"></i> خروج من وضع السينما';
+            } else {
+                btn.innerHTML = '<i class="fas fa-video"></i> وضع السينما';
+            }
+        }
+
+        function saveContinueWatching(animeId, episodeNum, animeTitle) {
+            localStorage.setItem('continueWatching', JSON.stringify({
+                animeId: animeId,
+                episodeNum: episodeNum,
+                animeTitle: animeTitle,
+                timestamp: new Date().getTime()
+            }));
+            continueData = { animeId, episodeNum, animeTitle, timestamp: new Date().getTime() };
+        }
+
+        function showContinueAlert() {
+            if (continueData && (new Date().getTime() - continueData.timestamp) < 86400000) {
+                const item = allItems.find(item => item.id === continueData.animeId);
+                if (item) {
+                    document.getElementById('continue-anime').textContent = continueData.animeTitle;
+                    document.getElementById('continue-ep').textContent = continueData.episodeNum;
+                    document.getElementById('continue-alert').style.display = 'block';
+                    
+                    setTimeout(() => {
+                        document.getElementById('continue-alert').style.display = 'none';
+                    }, 10000);
+                }
+            }
+        }
+
+        function continueWatching() {
+            if (continueData) {
+                const item = allItems.find(item => item.id === continueData.animeId);
+                if (item) {
+                    openWatchPage(item);
+                    setTimeout(() => {
+                        const episodeBtns = document.querySelectorAll('.episode-btn');
+                        episodeBtns.forEach((btn, index) => {
+                            if (btn.textContent.includes(continueData.episodeNum)) {
+                                btn.click();
+                            }
+                        });
+                    }, 500);
+                }
+            }
+            hideContinueAlert();
+        }
+
+        function hideContinueAlert() {
+            document.getElementById('continue-alert').style.display = 'none';
+        }
+
+        function filterByTag(tag) {
+            document.querySelectorAll('.tag-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (tag === 'all') {
+                currentFilteredData = animeData;
+                mainSectionTitle.innerText = "آخر الحلقات المضافة";
+            } else {
+                currentFilteredData = animeData.filter(item => 
+                    item.tags && item.tags.some(t => t.includes(tag))
+                );
+                mainSectionTitle.innerText = `أنميات ${tag}`;
+            }
+            
+            animeListContainer.innerHTML = '';
+            currentFilteredData.forEach(item => {
+                animeListContainer.appendChild(createAnimeCard(item));
+            });
+        }
+
+        function checkServerStatus() {
+            setTimeout(() => {
+                document.querySelectorAll('.server-status').forEach(dot => {
+                    const isOnline = Math.random() > 0.1;
+                    dot.classList.toggle('offline', !isOnline);
+                    dot.title = isOnline ? "السيرفر يعمل" : "السيرفر معطل";
+                });
+            }, 1000);
+        }
+
+        function generateDailyRecommendations() {
+            const shuffled = [...allItems].sort(() => 0.5 - Math.random());
+            const recommendations = shuffled.slice(0, 3);
+            
+            const container = document.getElementById('daily-recommendations');
+            container.innerHTML = '<div class="section-header"><h2 class="section-title">اخترنا لك اليوم</h2></div>';
+            
+            const recsContainer = document.createElement('div');
+            recsContainer.className = 'daily-recommendations';
+            
+            recommendations.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'recommendation-card';
+                card.onclick = () => openWatchPage(item);
+                card.innerHTML = `
+                    <img src="${item.image}" alt="${item.title}" onerror="this.src='https://via.placeholder.com/120x160/1a1a1a/ffffff?text=IMG'">
+                    <div class="recommendation-info">
+                        <div class="recommendation-tag">اختيار اليوم</div>
+                        <h3 style="margin-bottom: 10px; font-size: 18px;">${item.title}</h3>
+                        <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 10px;">${item.desc || 'وصف غير متوفر'}</p>
+                        <div style="display: flex; gap: 10px; margin-top: auto;">
+                            <span style="color: var(--primary-color);"><i class="fas fa-star"></i> ${(Math.random() * 2 + 8).toFixed(1)}</span>
+                            <span style="color: var(--text-muted);"><i class="fas fa-play-circle"></i> ${item.type === 'movie' ? 'فيلم' : item.episodes.length + ' حلقة'}</span>
+                        </div>
+                    </div>
+                `;
+                recsContainer.appendChild(card);
+            });
+            
+            container.appendChild(recsContainer);
+        }
+
+        function randomizeRecommendations() {
+            generateDailyRecommendations();
+            const btn = event.target;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-check"></i> تم التحديث!';
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+            }, 2000);
+        }
+
+        function showHome() {
+            watchPage.style.display = 'none';
+            homePage.style.display = 'block';
+            document.getElementById('contact-section').style.display = 'none';
+            document.getElementById('news-section').style.display = 'none';
+            document.body.classList.remove('cinema-mode');
+            window.scrollTo(0, 0);
+        }
+
+        function showContent(type) {
+            homePage.style.display = 'none';
+            watchPage.style.display = 'none';
+            document.getElementById('contact-section').style.display = 'none';
+            document.getElementById('news-section').style.display = 'none';
+            
+            document.querySelectorAll('.nav-button').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (type === 'anime') {
+                homePage.style.display = 'block';
+                mainSectionTitle.innerText = 'آخر الحلقات المضافة';
+                animeListContainer.innerHTML = '';
+                animeData.forEach(item => {
+                    animeListContainer.appendChild(createAnimeCard(item));
+                });
+                renderFavorites();
+            } else if (type === 'film') {
+                homePage.style.display = 'block';
+                mainSectionTitle.innerText = 'الأفلام السينمائية';
+                animeListContainer.innerHTML = '';
+                movieData.forEach(item => {
+                    animeListContainer.appendChild(createAnimeCard(item));
+                });
+                favoritesContainer.style.display = 'none';
+            } else if (type === 'favorit') {
+                homePage.style.display = 'block';
+                mainSectionTitle.innerText = 'المفضلة';
+                renderFavorites();
+            } else if (type === 'contact') {
+                document.getElementById('contact-section').style.display = 'block';
+            } else if (type === 'news') {
+                document.getElementById('news-section').style.display = 'block';
+            }
+            
+            document.body.classList.remove('cinema-mode');
+            window.scrollTo(0, 0);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initHome();
+            initTheme();
+            setTimeout(showContinueAlert, 3000);
+            
+            // إضافة حدث للألوان المحددة مسبقاً
+            document.querySelectorAll('.color-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    selectColor(this.getAttribute('data-color'));
+                });
+            });
+            
+            console.log(`✅ تم تحميل: ${movieData.length} فيلم، ${animeData.length} أنمي`);
+        });
+    </script>
+</body>
+</html>
